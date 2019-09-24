@@ -475,8 +475,10 @@ var HTML5Backend = function () {
 		}
 	}, {
 		key: 'handleTopDragEndCapture',
-		value: function handleTopDragEndCapture() {
-			if (this.clearCurrentDragSourceNode()) {
+		value: function handleTopDragEndCapture(event,wasDelayed) {
+      if(!wasDelayed && navigator.userAgent.includes('Chrome') && navigator.userAgent.includes('Windows') ){
+        setTimeout(() => this.handleTopDragEndCapture(event, true), 100);
+      }else if (this.clearCurrentDragSourceNode()) {
 				// Firefox can dispatch this event in an infinite loop
 				// if dragend handler does something like showing an alert.
 				// Only proceed if we have not handled it already.
